@@ -1,0 +1,56 @@
+FUNCTIONS
+
+1   void serverlisten()
+this function will open a socket and waits for the client to connect to it.this function will also close the previose socket made at the begining so we dont have to write close socket every time we use this function.
+
+2    char* authtokengenarator()
+this function will generate a 32 character token from the alphnumeric characters.
+
+3     void addmembertochannel(char username[],char thischannel[]);
+this function will receive a username and a channel name and will add that username to that channel's member database.(cJSON *channelmember). for more on the database go to the database section.
+
+4     void removeuser(char username[],char thischannel[]);
+this function will receive a username and a channel name and will remove that username from that channel's member database.(cJSON *channelmember). for more on the database go to the database section.
+
+5     void loginuser()
+this function will receive the username and password of a user. first it will  check for errors. if the user is already signed in it wont allow him to sign in again. if a user has entered a wrong password or username it will not allow them to sign in.
+if there are no errors it will allow the user to sign in and will change their status(cJSON *membersid) to online.
+
+6     void logout();
+if there are no errors this function will change user status to offline and will remove them from the online users database.
+
+7     void sendjson(char *a,char *b)
+this function will send a json item like this {"type":"char *a","content":"char *b"} to the client.
+
+8     int doesithavesubstring(char *a,char *b);
+this function is used by the search message function. it will return 1 if the string b is in string a and 0 if its not.
+
+
+
+DATABASES
+the server uses 5 global cJSON object for storing tempory datas. the items are as follows
+
+1-memberauthtoken
+{ "authtoken":"username" , ...}
+this json item stores every authtoken that the server generates with the username which is assigned to it.
+
+2-membersid
+{"username":"0 or 1",...}
+this json item stores the status of each user (0 for offline , 1 for online)
+
+3-channelmember
+{   { "channel name" : "[member1],[member2],..."} ...}
+this json item stores each channel's members.
+
+4-memberactivechannel
+{ "username":"channel name" , ...}
+this json object stores the channel that each member is using.
+
+5-memberrefreshid
+{ "username":"int" , ...}
+this json object stores the number of messages seen in a channel by a user.
+
+this 5 databases are completly temporary and each is created if the server needs them.
+  
+
+
